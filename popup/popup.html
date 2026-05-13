@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DeepSeek 收藏夹</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="app">
+    <!-- 顶部标题栏 -->
+    <header class="header">
+      <h1 class="title">📌 DeepSeek 收藏夹</h1>
+      <button id="searchToggle" class="icon-btn" title="搜索">🔍</button>
+    </header>
+
+    <!-- 搜索栏（默认隐藏） -->
+    <div id="searchBar" class="search-bar hidden">
+      <input type="text" id="searchInput" placeholder="搜索收藏内容...">
+      <button id="clearSearch" class="icon-btn hidden">✕</button>
+    </div>
+
+    <!-- 批量操作栏（默认隐藏） -->
+    <div id="batchBar" class="batch-bar hidden">
+      <span id="selectedCount">已选 0 项</span>
+      <button id="batchDelete" class="batch-btn danger">删除选中</button>
+      <button id="batchMove" class="batch-btn">移动到...</button>
+      <button id="cancelBatch" class="batch-btn">取消</button>
+    </div>
+
+    <!-- 主体：左侧收藏夹列表 + 右侧内容 -->
+    <div class="main">
+      <!-- 左侧收藏夹 -->
+      <nav class="sidebar">
+        <div class="sidebar-header">
+          <span>收藏夹</span>
+          <button id="addFolder" class="icon-btn" title="新建收藏夹">＋</button>
+        </div>
+        <ul id="folderList" class="folder-list">
+          <li class="folder-item active" data-folder-id="all">📋 全部</li>
+        </ul>
+      </nav>
+
+      <!-- 右侧书签列表 -->
+      <section class="content">
+        <div id="bookmarkList" class="bookmark-list">
+          <div class="empty-state">还没有收藏内容<br>在DeepSeek页面点击收藏按钮开始吧</div>
+        </div>
+      </section>
+    </div>
+
+    <!-- 底部操作栏 -->
+    <footer class="footer">
+      <button id="enterBatch" class="footer-btn">批量管理</button>
+      <button id="exportMd" class="footer-btn">导出 Markdown</button>
+      <button id="exportJson" class="footer-btn">导出 JSON</button>
+    </footer>
+
+    <!-- 选择收藏夹弹窗（点击收藏按钮时触发） -->
+    <div id="folderSelectModal" class="modal-overlay hidden">
+      <div class="modal">
+        <h3 class="modal-title">选择收藏夹</h3>
+        <ul id="folderSelectList" class="folder-select-list"></ul>
+        <div class="modal-actions">
+          <button id="newFolderInModal" class="modal-btn primary">＋ 新建收藏夹</button>
+          <button id="closeModal" class="modal-btn">取消</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 移动收藏夹弹窗（批量移动时触发） -->
+    <div id="moveFolderModal" class="modal-overlay hidden">
+      <div class="modal">
+        <h3 class="modal-title">移动到收藏夹</h3>
+        <ul id="moveFolderList" class="folder-select-list"></ul>
+        <div class="modal-actions">
+          <button id="closeMoveModal" class="modal-btn">取消</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 对话详情弹窗（支持片段选择导出） -->
+  <div id="detailModal" class="modal-overlay hidden">
+    <div class="modal detail-modal">
+      <div class="detail-header">
+        <h3 id="detailTitle" class="modal-title">对话详情</h3>
+        <button id="closeDetail" class="icon-btn">✕</button>
+      </div>
+      <div class="detail-toolbar">
+        <button id="selectAllSegments" class="detail-btn">全选</button>
+        <button id="deselectAllSegments" class="detail-btn">取消全选</button>
+        <span id="segmentCount" class="detail-hint"></span>
+      </div>
+      <div id="segmentList" class="segment-list"></div>
+      <div class="modal-actions">
+        <button id="exportSelectedMd" class="modal-btn primary">导出选中片段 (Markdown)</button>
+        <button id="exportSelectedJson" class="modal-btn">导出选中片段 (JSON)</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
